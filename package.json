@@ -1,0 +1,27 @@
+{
+  "name": "daily-notes-calendar",
+  "version": "1.11.0",
+  "description": "Replace the daily-notes ribbon action with a monthly calendar for opening and creating daily notes.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs --watch",
+    "build": "node esbuild.config.mjs && tsc -noEmit -skipLibCheck",
+    "typecheck": "tsc -noEmit -skipLibCheck"
+  },
+  "keywords": [
+    "obsidian",
+    "daily-notes",
+    "calendar"
+  ],
+  "author": "zihoou",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.24.2",
+    "obsidian": "^1.7.2",
+    "obsidian-daily-notes-interface": "^0.9.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2"
+  }
+}

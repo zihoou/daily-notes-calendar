@@ -1,0 +1,9 @@
+{
+  "id": "daily-notes-calendar",
+  "name": "Daily Notes Calendar",
+  "version": "1.11.0",
+  "minAppVersion": "1.8.7",
+  "description": "悬浮月历支持快速选择年月、打开或创建日记、周报和月报，并保留原今日日记按钮。",
+  "author": "zihoou",
+  "isDesktopOnly": false
+}
