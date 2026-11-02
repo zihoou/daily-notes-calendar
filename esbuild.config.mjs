@@ -11,7 +11,7 @@ const context = await esbuild.context({
     "obsidian",
     "electron",
     "@codemirror/autocomplete",
-    "@codemirror/collaboration",
+    "@codemirror/collaborate",
     "@codemirror/commands",
     "@codemirror/language",
     "@codemirror/lint",

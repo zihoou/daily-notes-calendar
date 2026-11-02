@@ -1,0 +1,589 @@
+.daily-notes-calendar-popover {
+  --daily-calendar-gap: 6px;
+  --daily-calendar-connector: -4px;
+  --daily-calendar-font-size: 12px;
+  --daily-calendar-font-weight: 600;
+  --daily-calendar-day-bg: color-mix(in srgb, var(--background-secondary) 16%, transparent);
+  --daily-calendar-empty-day-bg: color-mix(in srgb, var(--background-secondary) 16%, transparent);
+  --daily-calendar-month-bg: var(--background-secondary);
+  --daily-calendar-month-border: var(--background-modifier-border-hover);
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  width: min(320px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 12px;
+  background: var(--background-primary);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 24%);
+}
+
+.daily-notes-calendar-popover.is-preview .daily-notes-calendar-day,
+.daily-notes-calendar-popover.is-preview .daily-notes-calendar-week-report,
+.daily-notes-calendar-popover.is-preview .daily-notes-calendar-month-report,
+.daily-notes-calendar-popover.is-preview .daily-notes-calendar-footer-button {
+  cursor: default;
+}
+
+.daily-notes-calendar-container {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+}
+
+.daily-notes-calendar-header {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.daily-notes-calendar-header .clickable-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 7px;
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.daily-notes-calendar-header .clickable-icon:hover {
+  background: var(--background-modifier-hover);
+}
+
+.daily-notes-calendar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin: 0;
+  font-size: 1em;
+  font-weight: 650;
+}
+
+.daily-notes-calendar-period-button {
+  min-height: 26px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-normal);
+  font-size: inherit;
+  font-weight: var(--daily-calendar-font-weight);
+  cursor: pointer;
+}
+
+.daily-notes-calendar-period-button:hover {
+  background: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-period-suffix {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.daily-notes-calendar-month-report {
+  min-height: 24px;
+  margin-left: 5px;
+  padding: 2px 6px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 5px;
+  background: var(--background-secondary);
+  box-shadow: none;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.daily-notes-calendar-month-report:hover {
+  border-color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-warning {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 7px;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.daily-notes-calendar-weekdays,
+.daily-notes-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) 38px;
+  column-gap: var(--daily-calendar-gap);
+  row-gap: var(--daily-calendar-gap);
+}
+
+.daily-notes-calendar-grid {
+  position: relative;
+  grid-auto-rows: 32px;
+}
+
+.daily-notes-calendar-month-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.daily-notes-calendar-month-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.daily-notes-calendar-weekdays {
+  margin-bottom: var(--daily-calendar-gap);
+}
+
+.daily-notes-calendar-weekday {
+  padding: 3px 0;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: var(--font-ui-smaller);
+  font-weight: 500;
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-day {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background-color: var(--daily-calendar-empty-day-bg);
+  background-image: none;
+  box-shadow: none;
+  color: var(--text-normal);
+  font-size: var(--daily-calendar-font-size);
+  font-weight: var(--daily-calendar-font-weight);
+  cursor: pointer;
+}
+
+.daily-notes-calendar-day-number {
+  position: relative;
+}
+
+.daily-notes-calendar-day.is-current-month {
+  color: var(--text-muted);
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-day:hover {
+  border-color: var(--background-modifier-border-hover);
+  background-color: var(--background-modifier-hover);
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-day.has-daily-note {
+  border-color: transparent;
+  background-color: var(--daily-calendar-day-bg);
+  color: var(--text-normal);
+  font-weight: var(--daily-calendar-font-weight);
+}
+
+.daily-notes-calendar-day.is-outside-month,
+.daily-notes-calendar-day.is-outside-month.has-daily-note {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.daily-notes-calendar-day.is-outside-month:hover {
+  opacity: 1;
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-day.is-today {
+  border-width: 2px;
+  border-color: var(--interactive-accent);
+  color: var(--interactive-accent);
+  font-weight: var(--daily-calendar-font-weight);
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-day.is-active-note {
+  border-color: var(--interactive-accent);
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  font-weight: var(--daily-calendar-font-weight);
+}
+
+.daily-notes-calendar-note-dot {
+  position: absolute;
+  z-index: 1;
+  bottom: 3px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--interactive-accent);
+  transform: translateX(-50%);
+}
+
+.daily-notes-calendar-day.is-active-note .daily-notes-calendar-note-dot {
+  background: var(--text-on-accent);
+}
+
+.daily-notes-calendar-week-report {
+  align-self: center;
+  min-width: 0;
+  min-height: 26px;
+  margin-left: 4px;
+  padding: 2px 3px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  cursor: pointer;
+}
+
+.daily-notes-calendar-week-report:hover {
+  background: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-footer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.daily-notes-calendar-footer-button {
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: var(--font-ui-smaller);
+  cursor: pointer;
+}
+
+.daily-notes-calendar-picker {
+  position: absolute;
+  inset: 46px 10px 10px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+  padding: 12px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  background: var(--background-primary);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 20%);
+}
+
+.daily-notes-calendar-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: 650;
+}
+
+.daily-notes-calendar-picker-header .clickable-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--background-modifier-border-hover);
+  border-radius: 6px;
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.daily-notes-calendar-picker-header .clickable-icon:hover {
+  border-color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-picker-options {
+  display: grid;
+  gap: 6px;
+  overflow-y: auto;
+}
+
+.daily-notes-calendar-picker-options.is-year {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.daily-notes-calendar-picker-options.is-month {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.daily-notes-calendar-picker-options button {
+  min-height: 30px;
+  padding: 4px;
+  background: var(--background-secondary);
+  box-shadow: none;
+  font-size: var(--font-ui-small);
+  cursor: pointer;
+}
+
+.daily-notes-calendar-picker-options button:hover {
+  background: var(--background-modifier-hover);
+}
+
+.daily-notes-calendar-picker-options button.is-selected {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.daily-notes-calendar-picker-options button {
+  position: relative;
+}
+
+.daily-notes-calendar-picker-options button.is-current {
+  border-color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-picker-options button.has-daily-note::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--interactive-accent);
+}
+
+.daily-notes-calendar-picker-options button.is-selected.has-daily-note::after {
+  background: var(--text-on-accent);
+}
+
+.daily-notes-calendar-settings-popover {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  width: min(296px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  background: var(--background-primary);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 24%);
+}
+
+.daily-notes-calendar-settings {
+  padding: 4px 12px 7px;
+  font-size: 11px;
+}
+
+.daily-notes-calendar-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.daily-notes-calendar-settings-title {
+  margin: 5px 0 2px;
+  font-size: 13px;
+}
+
+.daily-notes-calendar-settings-reset {
+  flex-shrink: 0;
+  min-height: 24px;
+  padding: 2px 6px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.daily-notes-calendar-settings-reset:hover {
+  border-color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-settings-hint {
+  margin-bottom: 3px;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.daily-notes-calendar-settings-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  margin: 7px 0 2px;
+  padding: 2px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 7px;
+  background: var(--background-secondary);
+}
+
+.daily-notes-calendar-settings-tab {
+  min-height: 25px;
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.daily-notes-calendar-settings-tab:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.daily-notes-calendar-settings-tab.is-active {
+  background: var(--background-primary);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+  color: var(--interactive-accent);
+  font-weight: 600;
+}
+
+.daily-notes-calendar-settings-panel[hidden] {
+  display: none;
+}
+
+.daily-notes-calendar-settings-group {
+  margin-top: 7px;
+}
+
+.daily-notes-calendar-settings-group-title {
+  margin-bottom: 2px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.daily-notes-calendar-settings .setting-item {
+  min-height: 0;
+  padding: 4px 0;
+  border: 0;
+  border-top: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.daily-notes-calendar-settings .setting-item:last-child {
+  border-bottom: 0;
+}
+
+.daily-notes-calendar-settings .setting-item-name {
+  font-size: 11px;
+}
+
+.daily-notes-calendar-settings .setting-item-control {
+  gap: 4px;
+}
+
+.daily-notes-calendar-settings .slider {
+  min-width: 90px;
+}
+
+.daily-notes-calendar-settings input[type="text"],
+.daily-notes-calendar-settings input[type="number"] {
+  min-height: 24px;
+  height: 24px;
+}
+
+.daily-notes-calendar-hex-input {
+  width: 72px;
+  min-width: 72px;
+  padding: 3px 5px;
+  font-family: var(--font-monospace);
+  font-size: 10px;
+}
+
+.daily-notes-calendar-hex-input[aria-invalid="true"],
+.daily-notes-calendar-number-input[aria-invalid="true"] {
+  border-color: var(--text-error);
+}
+
+.daily-notes-calendar-number-input {
+  width: 54px;
+  min-width: 54px;
+  padding: 3px 4px;
+  font-size: 10px;
+  text-align: right;
+}
+
+.daily-notes-calendar-settings-group-items.is-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding-top: 4px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.daily-notes-calendar-settings-group-items.is-compact-grid .setting-item {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 0;
+  border-top: 0;
+}
+
+.daily-notes-calendar-settings-group-items.is-compact-grid .setting-item-control,
+.daily-notes-calendar-settings-group-items.is-compact-grid .daily-notes-calendar-number-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.daily-notes-calendar-settings textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 4px 6px;
+  font-family: var(--font-monospace);
+  font-size: 10px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.daily-notes-calendar-settings-group-hint {
+  padding: 4px 0 2px;
+  color: var(--text-muted);
+  font-family: var(--font-monospace);
+  font-size: 9px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.daily-notes-calendar-settings-panel > .setting-item:last-child {
+  padding-top: 7px;
+}
+
+.daily-notes-calendar-settings-panel > .setting-item:last-child button {
+  min-height: 26px;
+  padding: 3px 8px;
+  font-size: 10px;
+}
