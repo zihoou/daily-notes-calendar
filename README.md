@@ -1,5 +1,7 @@
 # Daily Notes Calendar
 
+[English](README.en.md) · 中文
+
 一个用于 Obsidian 的悬浮月历插件。保留 Obsidian 原来的“打开/创建今天日记”按钮，并在左侧功能区提供独立的月历入口。
 
 ## 功能预览
