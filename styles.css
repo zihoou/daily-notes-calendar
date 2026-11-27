@@ -19,6 +19,11 @@
   box-shadow: 0 12px 36px rgb(0 0 0 / 24%);
 }
 
+.daily-notes-calendar-popover.daily-notes-calendar-is-hidden,
+.daily-notes-calendar-settings-popover.daily-notes-calendar-is-hidden {
+  visibility: hidden;
+}
+
 .daily-notes-calendar-popover.is-preview .daily-notes-calendar-day,
 .daily-notes-calendar-popover.is-preview .daily-notes-calendar-week-report,
 .daily-notes-calendar-popover.is-preview .daily-notes-calendar-month-report,

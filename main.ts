@@ -608,7 +608,7 @@ class DailyCalendarSettingsPopover extends Component {
       cls: "daily-notes-calendar-settings-popover",
       attr: { role: "dialog", "aria-label": getMessages().settings },
     });
-    this.popoverEl.style.visibility = "hidden";
+    this.popoverEl.classList.add("daily-notes-calendar-is-hidden");
 
     this.registerDomEvent(
       document,
@@ -639,7 +639,7 @@ class DailyCalendarSettingsPopover extends Component {
     });
 
     this.render();
-    this.popoverEl.style.visibility = "visible";
+    this.popoverEl.classList.remove("daily-notes-calendar-is-hidden");
     this.previewPopover = new DailyCalendarPopover(
       this.plugin.app,
       this.plugin,
@@ -1101,7 +1101,7 @@ class DailyCalendarPopover extends Component {
       cls: `daily-notes-calendar-popover${this.preview ? " is-preview" : ""}`,
       attr: { role: "dialog", "aria-label": getMessages().calendar },
     });
-    this.popoverEl.style.visibility = "hidden";
+    this.popoverEl.classList.add("daily-notes-calendar-is-hidden");
     this.applySettings();
 
     const refresh = () => this.render();
@@ -1143,7 +1143,7 @@ class DailyCalendarPopover extends Component {
 
     this.registerDomEvent(window, "resize", () => this.reposition());
     this.render();
-    this.popoverEl.style.visibility = "visible";
+    this.popoverEl.classList.remove("daily-notes-calendar-is-hidden");
   }
 
   onunload(): void {
