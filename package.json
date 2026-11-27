@@ -1,6 +1,6 @@
 {
   "name": "daily-notes-calendar",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "description": "Open and create daily, weekly, and monthly notes from a theme-aware popup calendar.",
   "main": "main.js",
   "scripts": {

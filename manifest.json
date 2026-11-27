@@ -1,7 +1,7 @@
 {
   "id": "daily-notes-calendar",
   "name": "Daily Notes Popup Calendar",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "minAppVersion": "1.8.7",
   "description": "Open and create daily, weekly, and monthly notes from a theme-aware popup calendar.",
   "author": "zihoou",
