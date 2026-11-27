@@ -1,0 +1,55 @@
+name: Verify and attest release assets
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  verify-and-attest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Check out the release source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Rebuild the plugin
+        run: npm run build
+
+      - name: Download published assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release download "${{ github.event.release.tag_name }}"
+          --repo "${{ github.repository }}"
+          --dir published
+          --pattern main.js
+          --pattern manifest.json
+          --pattern styles.css
+
+      - name: Verify published assets match this source build
+        run: |
+          cmp main.js published/main.js
+          cmp manifest.json published/manifest.json
+          cmp styles.css published/styles.css
+
+      - name: Attest release asset provenance
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            main.js
+            manifest.json
+            styles.css
