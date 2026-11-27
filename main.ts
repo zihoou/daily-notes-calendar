@@ -346,13 +346,13 @@ export default class DailyNotesCalendarPlugin extends Plugin {
     });
 
     this.addCommand({
-      id: "open-daily-notes-calendar",
+      id: "open-calendar",
       name: messages.openCurrentMonth,
       callback: () => this.toggleCalendarPopover(),
     });
 
     this.addCommand({
-      id: "open-daily-notes-calendar-settings",
+      id: "open-calendar-settings",
       name: messages.openSettings,
       callback: () => this.toggleSettingsPopover(),
     });
@@ -488,6 +488,39 @@ export default class DailyNotesCalendarPlugin extends Plugin {
     return date.format(format);
   }
 
+  findReport(date: MomentDate, type: ReportType): TFile | undefined {
+    const defaultFolder = type === "week"
+      ? this.settings.weeklyReportFolder
+      : this.settings.monthlyReportFolder;
+    const defaultFormat = type === "week"
+      ? this.settings.weeklyReportFormat || DEFAULT_SETTINGS.weeklyReportFormat
+      : this.settings.monthlyReportFormat || DEFAULT_SETTINGS.monthlyReportFormat;
+    const extraFolders = type === "week"
+      ? this.settings.extraWeeklyReportFolders
+      : this.settings.extraMonthlyReportFolders;
+    const extraFormats = type === "week"
+      ? this.settings.extraWeeklyReportFormats
+      : this.settings.extraMonthlyReportFormats;
+    const folders = Array.from(new Set([
+      defaultFolder,
+      ...extraFolders.split(/[,\n]/),
+    ].map((folder) => folder.trim().replace(/^\/+|\/+$/g, ""))));
+    const formats = Array.from(new Set([
+      defaultFormat,
+      ...extraFormats.split(/[,\n]/),
+    ].map((format) => format.trim()).filter(Boolean)));
+
+    for (const folder of folders) {
+      for (const format of formats) {
+        const fileName = `${date.format(format)}.md`;
+        const path = normalizePath(folder ? `${folder}/${fileName}` : fileName);
+        const file = this.app.vault.getAbstractFileByPath(path);
+        if (file instanceof TFile) return file;
+      }
+    }
+    return undefined;
+  }
+
   async openReport(date: MomentDate, type: ReportType): Promise<void> {
     if (!this.ensureDailyNotesEnabled()) return;
 
@@ -495,37 +528,7 @@ export default class DailyNotesCalendarPlugin extends Plugin {
       const defaultFolder = type === "week"
         ? this.settings.weeklyReportFolder
         : this.settings.monthlyReportFolder;
-      const defaultFormat = type === "week"
-        ? this.settings.weeklyReportFormat || DEFAULT_SETTINGS.weeklyReportFormat
-        : this.settings.monthlyReportFormat || DEFAULT_SETTINGS.monthlyReportFormat;
-      const extraFolders = type === "week"
-        ? this.settings.extraWeeklyReportFolders
-        : this.settings.extraMonthlyReportFolders;
-      const extraFormats = type === "week"
-        ? this.settings.extraWeeklyReportFormats
-        : this.settings.extraMonthlyReportFormats;
-      const folders = Array.from(new Set([
-        defaultFolder,
-        ...extraFolders.split(/[,\n]/),
-      ].map((folder) => folder.trim().replace(/^\/+|\/+$/g, ""))));
-      const formats = Array.from(new Set([
-        defaultFormat,
-        ...extraFormats.split(/[,\n]/),
-      ].map((format) => format.trim()).filter(Boolean)));
-
-      let note: TFile | undefined;
-      for (const folder of folders) {
-        for (const format of formats) {
-          const fileName = `${date.format(format)}.md`;
-          const path = normalizePath(folder ? `${folder}/${fileName}` : fileName);
-          const file = this.app.vault.getAbstractFileByPath(path);
-          if (file instanceof TFile) {
-            note = file;
-            break;
-          }
-        }
-        if (note) break;
-      }
+      let note = this.findReport(date, type);
 
       if (!note) {
         const reportName = this.getReportName(date, type);
@@ -1222,14 +1225,28 @@ class DailyCalendarPopover extends Component {
     });
     if (chinese) title.createSpan({ cls: "daily-notes-calendar-period-suffix", text: "月" });
 
+    const monthlyReport = this.plugin.findReport(this.currentMonth, "month");
+    const activeFilePath = this.app.workspace.getActiveFile()?.path;
+    const isActiveMonthlyReport = Boolean(monthlyReport && activeFilePath === monthlyReport.path);
+    const monthReportClasses = ["daily-notes-calendar-month-report"];
+    if (monthlyReport) monthReportClasses.push("has-monthly-report");
+    if (isActiveMonthlyReport) monthReportClasses.push("is-active-note");
+
     const monthReportButton = title.createEl("button", {
-      cls: "daily-notes-calendar-month-report",
-      text: messages.monthReport,
+      cls: monthReportClasses.join(" "),
       attr: {
         type: "button",
         "aria-label": `${messages.openCreate}${messages.monthlyReportName}`,
+        ...(isActiveMonthlyReport ? { "aria-current": "page" } : {}),
       },
     });
+    monthReportButton.createSpan({ text: messages.monthReport });
+    if (monthlyReport) {
+      monthReportButton.createSpan({
+        cls: "daily-notes-calendar-note-dot",
+        attr: { "aria-hidden": "true" },
+      });
+    }
     monthReportButton.addEventListener("click", () => {
       if (!this.preview) void this.plugin.openReport(this.currentMonth, "month");
     });
@@ -1259,7 +1276,6 @@ class DailyCalendarPopover extends Component {
     grid.createDiv({ cls: "daily-notes-calendar-month-layer", attr: { "aria-hidden": "true" } });
     const coreDailyNotesEnabled = isCoreDailyNotesEnabled(this.app);
     const dailyNotes = coreDailyNotesEnabled ? getAllDailyNotes() : {};
-    const activeFilePath = this.app.workspace.getActiveFile()?.path;
     const today = moment().startOf("day");
     const firstDay = this.currentMonth.clone().startOf("month");
     const mondayBasedOffset = (firstDay.day() + 6) % 7;
@@ -1401,15 +1417,29 @@ class DailyCalendarPopover extends Component {
   private createWeekReportButton(parent: HTMLElement, date: MomentDate): void {
     const messages = getMessages();
     const reportName = this.plugin.getReportName(date, "week");
+    const report = this.plugin.findReport(date, "week");
+    const activeFilePath = this.app.workspace.getActiveFile()?.path;
+    const isActiveNote = Boolean(report && activeFilePath === report.path);
     const weekLabel = `W${String(date.isoWeek()).padStart(2, "0")}`;
+    const classes = ["daily-notes-calendar-week-report"];
+    if (report) classes.push("has-weekly-report");
+    if (isActiveNote) classes.push("is-active-note");
+
     const button = parent.createEl("button", {
-      cls: "daily-notes-calendar-week-report",
-      text: weekLabel,
+      cls: classes.join(" "),
       attr: {
         type: "button",
         "aria-label": `${messages.openCreate} ${reportName} ${messages.weeklyReportName}`,
+        ...(isActiveNote ? { "aria-current": "page" } : {}),
       },
     });
+    button.createSpan({ text: weekLabel });
+    if (report) {
+      button.createSpan({
+        cls: "daily-notes-calendar-note-dot",
+        attr: { "aria-hidden": "true" },
+      });
+    }
     button.addEventListener("click", () => {
       if (!this.preview) void this.plugin.openReport(date, "week");
     });
