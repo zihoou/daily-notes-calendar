@@ -93,6 +93,7 @@
 }
 
 .daily-notes-calendar-month-report {
+  position: relative;
   min-height: 24px;
   margin-left: 5px;
   padding: 2px 6px;
@@ -110,6 +111,21 @@
   border-color: var(--interactive-accent);
   background: var(--background-modifier-hover);
   color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-month-report .daily-notes-calendar-note-dot {
+  bottom: 0;
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-month-report.is-active-note {
+  border-color: var(--interactive-accent);
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  font-weight: var(--daily-calendar-font-weight);
+}
+
+.daily-notes-calendar-month-report.is-active-note .daily-notes-calendar-note-dot {
+  background: var(--text-on-accent);
 }
 
 .daily-notes-calendar-warning {
@@ -243,12 +259,14 @@
 }
 
 .daily-notes-calendar-week-report {
+  position: relative;
   align-self: center;
   min-width: 0;
   min-height: 26px;
   margin-left: 4px;
   padding: 2px 3px;
-  border: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
   box-shadow: none;
   color: var(--text-muted);
@@ -259,6 +277,21 @@
 .daily-notes-calendar-week-report:hover {
   background: var(--background-modifier-hover);
   color: var(--interactive-accent);
+}
+
+.daily-notes-calendar-week-report .daily-notes-calendar-note-dot {
+  bottom: 1px;
+}
+
+.daily-notes-calendar-popover .daily-notes-calendar-week-report.is-active-note {
+  border-color: var(--interactive-accent);
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  font-weight: var(--daily-calendar-font-weight);
+}
+
+.daily-notes-calendar-week-report.is-active-note .daily-notes-calendar-note-dot {
+  background: var(--text-on-accent);
 }
 
 .daily-notes-calendar-footer {
