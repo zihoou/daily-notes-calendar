@@ -10,7 +10,7 @@ import {
   TFile,
   TFolder,
   getLanguage,
-  moment,
+  moment as obsidianMoment,
   normalizePath,
 } from "obsidian";
 import {
@@ -23,6 +23,7 @@ import {
 const HIDDEN_CORE_RIBBON_CLASS = "daily-notes-calendar-core-hidden";
 
 type MomentDate = Moment;
+const moment = obsidianMoment as () => MomentDate;
 type ReportType = "week" | "month";
 type PickerMode = "year" | "month";
 
