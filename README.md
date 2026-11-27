@@ -1,69 +1,67 @@
 # Daily Notes Popup Calendar
 
-[English](README.EN.md) · 中文
+English · [中文](README.ZH.md)
 
-Daily Notes Popup Calendar is a theme-aware Obsidian plugin for opening and creating daily, weekly, and monthly notes from a floating monthly calendar. It highlights the active note, marks existing notes, supports additional folders and naming formats, and provides configurable appearance settings with a live preview. Read the [full English documentation](README.EN.md).
+An Obsidian plugin that shows a floating monthly calendar. It keeps Obsidian's original "Open today's daily note" ribbon action and adds a separate monthly calendar entry in the left ribbon.
 
-一个用于 Obsidian 的悬浮月历插件。保留 Obsidian 原来的“打开/创建今天日记”按钮，并在左侧功能区提供独立的月历入口。
+## Preview
 
-## 功能预览
-
-| 中文暗色 | English / Light |
+| Chinese / Dark | English / Light |
 | --- | --- |
-| ![中文暗色月历](docs/images/日记日历-中文暗色.png) | ![English light calendar](docs/images/日记日历-英文亮色.png) |
+| ![Chinese dark calendar](docs/images/日记日历-中文暗色.png) | ![English light calendar](docs/images/日记日历-英文亮色.png) |
 
-### 外观设置与实时预览
+### Appearance settings with live preview
 
-![外观设置与实时预览](docs/images/日记日历-外观设置.png)
+![Appearance settings with live preview](docs/images/日记日历-外观设置.png)
 
-### 日记、周报与月报识别
+### Daily, weekly, and monthly note recognition
 
-![日记、周报与月报识别设置](docs/images/日记日历-关联设置.png)
+![Settings for daily, weekly, and monthly note recognition](docs/images/日记日历-关联设置.png)
 
-## 功能
+## Features
 
-- 左键点击日历图标打开悬浮月历，右键打开设置与实时预览。
-- 显示本月日期，区分今天、当前打开的日记和已有日记的日期。
-- 点击日期打开或创建对应日记，支持快速选择年份和月份。
-- 通过每周的 `Www` 按钮打开或创建周报，通过月份旁的按钮打开或创建月报。
-- 自动读取 Obsidian 核心“日记”插件的目录和格式。
-- 日记、周报、月报均支持额外目录和额外命名格式。
-- 默认周报格式：`Weekly-YYYY-Www`；默认月报格式：`Monthly-YYYY-MM`。
-- 外观与笔记配置分开展示，支持中英文界面，并跟随 Obsidian 主题颜色。
+- Left-click the calendar icon to open the floating monthly calendar; right-click to open the settings with a live preview.
+- Shows the current month's dates and distinguishes today, the currently open daily note, and dates that already have daily notes.
+- Click a date to open or create the corresponding daily note, with quick year and month pickers.
+- Open or create a weekly note via the `Www` button for each week, and a monthly note via the button next to the month.
+- Automatically reads the folder and format from Obsidian's core Daily Notes plugin.
+- Daily, weekly, and monthly notes all support additional folders and additional naming formats.
+- Default weekly note format: `Weekly-YYYY-Www`; default monthly note format: `Monthly-YYYY-MM`.
+- Appearance and note settings are on separate tabs; the interface supports both Chinese and English and follows the Obsidian theme.
 
-## 安装
+## Installation
 
-### 手动安装
+### Manual installation
 
-1. 在你的库中创建目录：`.obsidian/plugins/daily-notes-calendar/`。
-2. 将 `main.js`、`manifest.json` 和 `styles.css` 复制到该目录。
-3. 重启 Obsidian，在“设置 → 第三方插件”中启用 **Daily Notes Popup Calendar**。
-4. 确保“设置 → 核心插件”中的“日记”已启用。
+1. Create the folder `.obsidian/plugins/daily-notes-calendar/` in your vault.
+2. Copy `main.js`, `manifest.json`, and `styles.css` into that folder.
+3. Restart Obsidian and enable **Daily Notes Popup Calendar** under "Settings → Community plugins".
+4. Make sure the core "Daily notes" plugin is enabled under "Settings → Core plugins".
 
-## 使用
+## Usage
 
-- **左键日历图标**：打开或关闭月历。
-- **右键日历图标**：打开或关闭设置面板及实时预览。
-- **点击日期**：打开已有日记，或按 Obsidian 日记设置创建新日记。
-- **点击周数 / 月报**：先按默认和额外规则查找已有报告，未找到时才按默认规则创建。
+- **Left-click the calendar icon**: open or close the monthly calendar.
+- **Right-click the calendar icon**: open or close the settings panel with live preview.
+- **Click a date**: open an existing daily note, or create one according to your Obsidian daily notes settings.
+- **Click a week number / monthly note button**: look for an existing report using the default and additional rules first; only create a new one if none is found.
 
-设置中的“外观”页签用于调整颜色和排版；“日记与报告”页签用于配置目录及命名格式。Moment.js 格式字符串中的固定文字请放在方括号中，例如 `[Weekly-]gggg-[W]ww`。
+Use the "Appearance" tab in settings to adjust colors and layout, and the "Daily Notes & Reports" tab to configure folders and naming formats. For fixed text in Moment.js format strings, wrap it in square brackets, e.g. `[Weekly-]gggg-[W]ww`.
 
-## 开发
+## Development
 
-需要 Node.js。
+Requires Node.js.
 
 ```bash
 npm install
 npm run build
 ```
 
-开发时自动重新构建：
+Rebuild automatically while developing:
 
 ```bash
 npm run dev
 ```
 
-## 许可证
+## License
 
 [MIT](LICENSE)

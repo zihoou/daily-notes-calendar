@@ -1,6 +1,6 @@
 # Daily Notes Popup Calendar
 
-[English](README.EN.md) · [中文](README.md)
+[English](README.md) · [中文](README.ZH.md)
 
 An Obsidian plugin that shows a floating monthly calendar. It keeps Obsidian's original "Open today's daily note" ribbon action and adds a separate monthly calendar entry in the left ribbon.
 
