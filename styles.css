@@ -147,8 +147,7 @@
 .daily-notes-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr)) 38px;
-  column-gap: var(--daily-calendar-gap);
-  row-gap: var(--daily-calendar-gap);
+  gap: var(--daily-calendar-gap);
 }
 
 .daily-notes-calendar-grid {

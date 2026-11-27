@@ -1,3 +1,4 @@
+import type { Moment } from "moment";
 import {
   App,
   ColorComponent,
@@ -21,7 +22,7 @@ import {
 
 const HIDDEN_CORE_RIBBON_CLASS = "daily-notes-calendar-core-hidden";
 
-type MomentDate = ReturnType<typeof moment>;
+type MomentDate = Moment;
 type ReportType = "week" | "month";
 type PickerMode = "year" | "month";
 
@@ -670,9 +671,8 @@ class DailyCalendarSettingsPopover extends Component {
       text: messages.resetDefaults,
       attr: { type: "button" },
     });
-    resetButton.addEventListener("click", async () => {
-      await this.plugin.resetSettings();
-      this.render();
+    resetButton.addEventListener("click", () => {
+      void this.plugin.resetSettings().then(() => this.render());
     });
     container.createDiv({ cls: "daily-notes-calendar-settings-hint", text: messages.settingsHint });
 
@@ -774,7 +774,6 @@ class DailyCalendarSettingsPopover extends Component {
       .addSlider((slider) => slider
         .setLimits(0, 100, 5)
         .setValue(this.plugin.settings.monthBackgroundOpacity)
-        .setDynamicTooltip()
         .onChange((value) => void this.plugin.updateSettings({ monthBackgroundOpacity: value })));
 
     new Setting(monthGroup)
@@ -782,7 +781,6 @@ class DailyCalendarSettingsPopover extends Component {
       .addSlider((slider) => slider
         .setLimits(0, 100, 5)
         .setValue(this.plugin.settings.monthBorderOpacity)
-        .setDynamicTooltip()
         .onChange((value) => void this.plugin.updateSettings({ monthBorderOpacity: value })));
 
     new Setting(notedDayGroup)
@@ -840,7 +838,6 @@ class DailyCalendarSettingsPopover extends Component {
       .addSlider((slider) => slider
         .setLimits(0, 100, 5)
         .setValue(this.plugin.settings.dayBackgroundOpacity)
-        .setDynamicTooltip()
         .onChange((value) => void this.plugin.updateSettings({ dayBackgroundOpacity: value })));
 
     new Setting(emptyDayGroup)
@@ -898,7 +895,6 @@ class DailyCalendarSettingsPopover extends Component {
       .addSlider((slider) => slider
         .setLimits(0, 100, 5)
         .setValue(this.plugin.settings.emptyDayBackgroundOpacity)
-        .setDynamicTooltip()
         .onChange((value) => void this.plugin.updateSettings({ emptyDayBackgroundOpacity: value })));
 
     this.addNumericSetting(typographyGroup, messages.fontSize, this.plugin.settings.dayFontSize, 10, 18, 1,
