@@ -1,6 +1,8 @@
-# Daily Notes Calendar
+# Daily Notes Popup Calendar
 
-[English](README.en.md) · 中文
+[English](README.EN.md) · 中文
+
+Daily Notes Popup Calendar is a theme-aware Obsidian plugin for opening and creating daily, weekly, and monthly notes from a floating monthly calendar. It highlights the active note, marks existing notes, supports additional folders and naming formats, and provides configurable appearance settings with a live preview. Read the [full English documentation](README.EN.md).
 
 一个用于 Obsidian 的悬浮月历插件。保留 Obsidian 原来的“打开/创建今天日记”按钮，并在左侧功能区提供独立的月历入口。
 
@@ -35,7 +37,7 @@
 
 1. 在你的库中创建目录：`.obsidian/plugins/daily-notes-calendar/`。
 2. 将 `main.js`、`manifest.json` 和 `styles.css` 复制到该目录。
-3. 重启 Obsidian，在“设置 → 第三方插件”中启用 **Daily Notes Calendar**。
+3. 重启 Obsidian，在“设置 → 第三方插件”中启用 **Daily Notes Popup Calendar**。
 4. 确保“设置 → 核心插件”中的“日记”已启用。
 
 ## 使用
